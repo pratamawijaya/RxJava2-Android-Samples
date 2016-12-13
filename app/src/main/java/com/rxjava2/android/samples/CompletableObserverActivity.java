@@ -22,59 +22,51 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class CompletableObserverActivity extends AppCompatActivity {
 
-    private static final String TAG = CompletableObserverActivity.class.getSimpleName();
-    Button btn;
-    TextView textView;
+  private static final String TAG = CompletableObserverActivity.class.getSimpleName();
+  Button btn;
+  TextView textView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_example);
-        btn = (Button) findViewById(R.id.btn);
-        textView = (TextView) findViewById(R.id.textView);
+  @Override protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_example);
+    btn = (Button) findViewById(R.id.btn);
+    textView = (TextView) findViewById(R.id.textView);
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                doSomeWork();
-            }
-        });
-    }
+    btn.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        doSomeWork();
+      }
+    });
+  }
 
-    /*
-     * simple example using CompletableObserver
-     */
-    private void doSomeWork() {
-        Completable completable = Completable.timer(1000, TimeUnit.MILLISECONDS);
+  /*
+   * simple example using CompletableObserver
+   */
+  private void doSomeWork() {
+    Completable completable = Completable.timer(1000, TimeUnit.MILLISECONDS);
 
-        completable
-                .subscribeOn(Schedulers.io())
-                // Be notified on the main thread
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getCompletableObserver());
-    }
+    completable.subscribeOn(Schedulers.io())
+        // Be notified on the main thread
+        .observeOn(AndroidSchedulers.mainThread()).subscribe(getCompletableObserver());
+  }
 
-    private CompletableObserver getCompletableObserver() {
-        return new CompletableObserver() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                Log.d(TAG, " onSubscribe : " + d.isDisposed());
-            }
+  private CompletableObserver getCompletableObserver() {
+    return new CompletableObserver() {
+      @Override public void onSubscribe(Disposable d) {
+        Log.d(TAG, " onSubscribe : " + d.isDisposed());
+      }
 
-            @Override
-            public void onComplete() {
-                textView.append(" onComplete");
-                textView.append(AppConstant.LINE_SEPARATOR);
-                Log.d(TAG, " onComplete");
-            }
+      @Override public void onComplete() {
+        textView.append(" onComplete");
+        textView.append(AppConstant.LINE_SEPARATOR);
+        Log.d(TAG, " onComplete");
+      }
 
-            @Override
-            public void onError(Throwable e) {
-                textView.append(" onError : " + e.getMessage());
-                textView.append(AppConstant.LINE_SEPARATOR);
-                Log.d(TAG, " onError : " + e.getMessage());
-            }
-        };
-    }
-
+      @Override public void onError(Throwable e) {
+        textView.append(" onError : " + e.getMessage());
+        textView.append(AppConstant.LINE_SEPARATOR);
+        Log.d(TAG, " onError : " + e.getMessage());
+      }
+    };
+  }
 }

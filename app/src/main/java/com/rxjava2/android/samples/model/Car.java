@@ -10,19 +10,17 @@ import io.reactivex.ObservableSource;
  */
 public class Car {
 
-    private String brand;
+  private String brand;
 
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
+  public void setBrand(String brand) {
+    this.brand = brand;
+  }
 
-    public Observable<String> brandDeferObservable() {
-        return Observable.defer(new Callable<ObservableSource<? extends String>>() {
-            @Override
-            public ObservableSource<? extends String> call() throws Exception {
-                return Observable.just(brand);
-            }
-        });
-    }
-
+  public Observable<String> brandDeferObservable() {
+    return Observable.defer(new Callable<ObservableSource<? extends String>>() {
+      @Override public ObservableSource<? extends String> call() throws Exception {
+        return Observable.just(brand);
+      }
+    });
+  }
 }

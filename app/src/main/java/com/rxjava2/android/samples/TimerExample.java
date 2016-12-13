@@ -22,71 +22,62 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class TimerExample extends AppCompatActivity {
 
-    private static final String TAG = TimerExample.class.getSimpleName();
-    Button btn;
-    TextView textView;
+  private static final String TAG = TimerExample.class.getSimpleName();
+  Button btn;
+  TextView textView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_example);
-        btn = (Button) findViewById(R.id.btn);
-        textView = (TextView) findViewById(R.id.textView);
+  @Override protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_example);
+    btn = (Button) findViewById(R.id.btn);
+    textView = (TextView) findViewById(R.id.textView);
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                doSomeWork();
-            }
-        });
-    }
+    btn.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        doSomeWork();
+      }
+    });
+  }
 
-    /*
-     * simple example using timer to do something after 2 second
-     */
-    private void doSomeWork() {
-        getObservable()
-                // Run on a background thread
-                .subscribeOn(Schedulers.io())
-                // Be notified on the main thread
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getObserver());
-    }
+  /*
+   * simple example using timer to do something after 2 second
+   */
+  private void doSomeWork() {
+    getObservable()
+        // Run on a background thread
+        .subscribeOn(Schedulers.io())
+        // Be notified on the main thread
+        .observeOn(AndroidSchedulers.mainThread()).subscribe(getObserver());
+  }
 
-    private Observable<? extends Long> getObservable() {
-        return Observable.timer(2, TimeUnit.SECONDS);
-    }
+  private Observable<? extends Long> getObservable() {
+    return Observable.timer(2, TimeUnit.SECONDS);
+  }
 
-    private Observer<Long> getObserver() {
-        return new Observer<Long>() {
+  private Observer<Long> getObserver() {
+    return new Observer<Long>() {
 
-            @Override
-            public void onSubscribe(Disposable d) {
-                Log.d(TAG, " onSubscribe : " + d.isDisposed());
-            }
+      @Override public void onSubscribe(Disposable d) {
+        Log.d(TAG, " onSubscribe : " + d.isDisposed());
+      }
 
-            @Override
-            public void onNext(Long value) {
-                textView.append(" onNext : value : " + value);
-                textView.append(AppConstant.LINE_SEPARATOR);
-                Log.d(TAG, " onNext : value : " + value);
-            }
+      @Override public void onNext(Long value) {
+        textView.append(" onNext : value : " + value);
+        textView.append(AppConstant.LINE_SEPARATOR);
+        Log.d(TAG, " onNext : value : " + value);
+      }
 
-            @Override
-            public void onError(Throwable e) {
-                textView.append(" onError : " + e.getMessage());
-                textView.append(AppConstant.LINE_SEPARATOR);
-                Log.d(TAG, " onError : " + e.getMessage());
-            }
+      @Override public void onError(Throwable e) {
+        textView.append(" onError : " + e.getMessage());
+        textView.append(AppConstant.LINE_SEPARATOR);
+        Log.d(TAG, " onError : " + e.getMessage());
+      }
 
-            @Override
-            public void onComplete() {
-                textView.append(" onComplete");
-                textView.append(AppConstant.LINE_SEPARATOR);
-                Log.d(TAG, " onComplete");
-            }
-        };
-    }
-
-
+      @Override public void onComplete() {
+        textView.append(" onComplete");
+        textView.append(AppConstant.LINE_SEPARATOR);
+        Log.d(TAG, " onComplete");
+      }
+    };
+  }
 }

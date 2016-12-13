@@ -18,54 +18,47 @@ import io.reactivex.disposables.Disposable;
  */
 public class SingleObserverExampleActivity extends AppCompatActivity {
 
-    private static final String TAG = SingleObserverExampleActivity.class.getSimpleName();
-    Button btn;
-    TextView textView;
+  private static final String TAG = SingleObserverExampleActivity.class.getSimpleName();
+  Button btn;
+  TextView textView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_example);
-        btn = (Button) findViewById(R.id.btn);
-        textView = (TextView) findViewById(R.id.textView);
+  @Override protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_example);
+    btn = (Button) findViewById(R.id.btn);
+    textView = (TextView) findViewById(R.id.textView);
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                doSomeWork();
-            }
-        });
-    }
+    btn.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        doSomeWork();
+      }
+    });
+  }
 
-    /*
-     * simple example using SingleObserver
-     */
-    private void doSomeWork() {
-        Single.just("Amit")
-                .subscribe(getSingleObserver());
-    }
+  /*
+   * simple example using SingleObserver
+   */
+  private void doSomeWork() {
+    Single.just("Amit").subscribe(getSingleObserver());
+  }
 
-    private SingleObserver<String> getSingleObserver() {
-        return new SingleObserver<String>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                Log.d(TAG, " onSubscribe : " + d.isDisposed());
-            }
+  private SingleObserver<String> getSingleObserver() {
+    return new SingleObserver<String>() {
+      @Override public void onSubscribe(Disposable d) {
+        Log.d(TAG, " onSubscribe : " + d.isDisposed());
+      }
 
-            @Override
-            public void onSuccess(String value) {
-                textView.append(" onNext : value : " + value);
-                textView.append(AppConstant.LINE_SEPARATOR);
-                Log.d(TAG, " onNext value : " + value);
-            }
+      @Override public void onSuccess(String value) {
+        textView.append(" onNext : value : " + value);
+        textView.append(AppConstant.LINE_SEPARATOR);
+        Log.d(TAG, " onNext value : " + value);
+      }
 
-            @Override
-            public void onError(Throwable e) {
-                textView.append(" onError : " + e.getMessage());
-                textView.append(AppConstant.LINE_SEPARATOR);
-                Log.d(TAG, " onError : " + e.getMessage());
-            }
-        };
-    }
-
+      @Override public void onError(Throwable e) {
+        textView.append(" onError : " + e.getMessage());
+        textView.append(AppConstant.LINE_SEPARATOR);
+        Log.d(TAG, " onError : " + e.getMessage());
+      }
+    };
+  }
 }

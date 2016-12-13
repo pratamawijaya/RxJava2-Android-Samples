@@ -28,46 +28,39 @@ public class DistinctExampleActivity extends AppCompatActivity {
     textView = (TextView) findViewById(R.id.textView);
 
     btn.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
+      @Override public void onClick(View view) {
         doSomeWork();
       }
     });
   }
 
+  private void doSomeWork() {
 
-  private void doSomeWork(){
-
-     getObservable().distinct() .subscribe(getObserver());
+    getObservable().distinct().subscribe(getObserver());
   }
 
   private Observable<Integer> getObservable() {
-    return Observable.just(1, 2, 1, 1, 2, 3, 4 ,6, 4);
+    return Observable.just(1, 2, 1, 1, 2, 3, 4, 6, 4);
   }
-
 
   private Observer<Integer> getObserver() {
     return new Observer<Integer>() {
 
-      @Override
-      public void onSubscribe(Disposable d) {
+      @Override public void onSubscribe(Disposable d) {
         Log.d(TAG, " onSubscribe : " + d.isDisposed());
       }
 
-      @Override
-      public void onNext(Integer value) {
+      @Override public void onNext(Integer value) {
         textView.append(" onNext : value : " + value);
         textView.append(AppConstant.LINE_SEPARATOR);
         Log.d(TAG, " onNext value : " + value);
       }
 
-      @Override
-      public void onError(Throwable e) {
+      @Override public void onError(Throwable e) {
         Log.d(TAG, " onError : " + e.getMessage());
       }
 
-      @Override
-      public void onComplete() {
+      @Override public void onComplete() {
         Log.d(TAG, " onComplete");
       }
     };

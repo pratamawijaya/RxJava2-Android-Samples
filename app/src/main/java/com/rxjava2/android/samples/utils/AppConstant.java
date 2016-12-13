@@ -5,8 +5,8 @@ package com.rxjava2.android.samples.utils;
  */
 public final class AppConstant {
 
-    private AppConstant() {
-    }
+  private AppConstant() {
+  }
 
-    public static final String LINE_SEPARATOR = "\n";
+  public static final String LINE_SEPARATOR = "\n";
 }
